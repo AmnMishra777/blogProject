@@ -42,7 +42,7 @@ const getCollegeData = async function (req, res) {
     try {
         const collegeName = req.query.collegeName
         if (collegeName) {
-            const collegeData = await collegeModel.findOne({ name: collegeName })
+            const collegeData = await collegeModel.findOne({ $or:[{name: collegeName},{fullName:collegeName}]})
             if (!collegeData) {
                 return res.status(404).send({ status: false, message: `college name ${collegeName} not found`})
             }
