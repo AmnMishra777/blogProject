@@ -11,7 +11,7 @@ const isValidUrl = function (value) {
 }
 
 const isValidCharacterLimit2to8 = function (value) {
-  const regEx = /^\s*([a-zA-Z\.]){2,8}\s*$/
+  const regEx = /^\s*([a-zA-Z]){2,8}\s*$/
   const result = regEx.test(value)
   return result
 }
