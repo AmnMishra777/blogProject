@@ -2,10 +2,7 @@ const collegeModel = require("../models/collegeModel.js");
 const internModel = require("../models/internModel.js");
 const validator = require("../validator/validator.js");
 
-
-
 //=========================================== 1-Create college Api ===============================================//
-
 
 const createCollege = async function (req, res) {
     try {
@@ -38,12 +35,7 @@ const createCollege = async function (req, res) {
     }
 }
 
-
-
-
-
 //========================================= 1-Get college data Api ==============================================//
-
 
 const getCollegeData = async function (req, res) {
     try {
@@ -62,7 +54,7 @@ const getCollegeData = async function (req, res) {
             return res.status(200).send({ status: true, data: collegeDetail })
         }
         else {
-           return res.status(400).send({ status: false, message: "please enter valid data" })
+           return res.status(400).send({ status: false, message: "please enter collegeName" })
         }
     }
     catch (error) {
