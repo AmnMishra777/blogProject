@@ -1,12 +1,16 @@
 
-//         if(!isValid(data.currencyId)){req.status(400).send({status: false, msg: 'please enter CurrencyId'})}
-//         if(data.currencyId !== "INR"){req.status(400).send({status: false, msg: 'please enter valid CurrencyId'})}
 
-//         if(!isValid(data.currencyFormat)){req.status(400).send({status: false, msg: 'please enter currencyFormat'})}
-//         if(data.currencyFormat !== "₹"){req.status(400).send({status: false, msg: 'please enter valid CurrencyFromat'})}
 
-    //     price: { type: Number, required: true, trim: true },
 
-    // currencyId: { type: String, uppercase: true, default: "INR", trim: true, required: true },
+// let filters = { isDeleted: false };
+// if (priceGreater) { filters.price = { $gte:priceGreater.sort(1)} };
+//         if (priceLower) { filters.price = { $gte:priceLower.sort(-1)} };
+//         if (size) { filters.size = { $all: tag.split(",").map((x)=>x.trim()) } };
 
-    // currencyFormat: { type: String, default: "₹", trim: true, required: true },
+//         const Products = await productModel.find(filters);    //empty array
+//         if (documents.length == 0) { return res.status(404).send({ status: false, msg: "no such products found" }) }; 
+
+
+arr= ['1','2','3']
+
+console.log(arr[1])

@@ -13,7 +13,12 @@ const isValidBody = function (value) {
     //   return false;
     return true;
 };
-
+// const isValidship = function (value) {
+//     if (typeof value === "undefined" || value === "null") return false;
+//     if (typeof value === "string" && value.trim().length === 0) return false;
+//     if (typeof value !== "boolean")return false;
+//     return true;
+//};
 const isValidEmail = function (email) {
     let checkemail = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
     if (checkemail.test(email)) {
@@ -137,29 +142,26 @@ const validationForProduct = async function (req, res, next) {
                 message: "currency format can only be in '₹' ",
             });
         }
-        if (!isFreeShipping) {
-            return res.status(400).send({
-                status: false,
-                message: "Please enter isFreeShipping key",
-            });
-        }
+        
 
-        if (!isValidBody(isFreeShipping)) {
-            return res.status(400).send({
-                status: false,
-                message: "Please inform is it free shipping or paid shipping, eg: True or False",
-            });
-        }
-        // if(isFreeShipping){
-        //  ₹   if(typeof isFreeShipping !== "boolean"){return res.status(400).send({status:false, error: "isFreeShipping can only be true or false"})}
-        // }
+    //     if (!isValidBody(isFreeShipping)) {
+    //         return res.status(400).send({
+    //             status: false,
+    //             message: "Please inform is it free shipping or paid shipping, eg: True or False",
+    //         });
+    //     }
 
-        if (!isValidBody(style) && !lengthOfCharacter(style)) {
+        
+    //  if(typeof (data.isFreeShipping) !== 'boolean'){return res.status(400).send({status:false, error: "isFreeShipping can only be true or false"})}
+    
+
+        if (!isValidBody(style) && !lengthOfCharacter(style)) { 
             return res.status(400).send({
                 status: false,
                 message: "Please mention the style of the product",
             });
         }
+   
         function isAvailableSizes(x) {  
             if(x){x = x.trim()}; //trimming of the title before test
             if (x !== "S" && x !== "XS" && x !== "M" && x !== "X" && x !== "L" && x !== "XXL" && x !== "XL") { return false };
@@ -172,14 +174,16 @@ const validationForProduct = async function (req, res, next) {
             });
         }
   
-        if (!isAvailableSizes(availableSizes)) {
-            return res.status(400).send({
-                status: false,
-                message: "size can only be S, XS, M, X, L, XXL, XL ",
-            });
+        // if (!isAvailableSizes(availableSizes)) {
+        //     console.log(availableSizes)
+        //     return res.status(400).send({ 
+        //         status: false,
+        //         message: "size can only be S, XS, M, X, L, XXL, XL ",
+           
+        //     });
         }
         const isValidInstallments = function (x) {
-            let checkIns = /^[0-9]{1,3}$/;
+            let checkIns = /^[0-9]{1}$/;
             if (checkIns.test(x)) {
                 return true;
             }
