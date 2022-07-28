@@ -89,6 +89,12 @@ const getProductbyQueryParams = async function (req, res) {
       }
     }
 
+    if (priceGreaterThan < priceLessThan) {
+      return res
+          .status(200)
+          .send({ status: true, message: "priceGreaterThan price should be less than priceLessThan price " });
+      }
+
     if (priceGreaterThan && priceLessThan) {
       obj.price = { $gt: priceGreaterThan, $lt: priceLessThan }}
 
@@ -103,7 +109,7 @@ const getProductbyQueryParams = async function (req, res) {
       let priceDetails = await productModel.find(obj).sort({ price: 1 });
       return res
         .status(200)
-        .send({ status: true, message: "Product list", data: priceDetails });
+        .send({ status: true, message: "11111Product list", data: priceDetails });
     }
 
     if (priceLessThan != undefined) {
@@ -117,14 +123,19 @@ const getProductbyQueryParams = async function (req, res) {
       let priceDetails = await productModel.find(obj).sort({ price: -1 });
       return res
         .status(200)
-        .send({ status: true, message: "Product list", data: priceDetails });
+        .send({ status: true, message: "22222Product list", data: priceDetails });
     }
 
     let productDetails = await productModel.find(obj);
+    if (!productDetails){
+      return res
+        .status(200)
+        .send({ status: true, message: "no data found" });
+    }
     if (productDetails) {
       return res
         .status(200)
-        .send({ status: true, message: "Product list", data: productDetails });
+        .send({ status: true, message: "33333Product list", data: productDetails });
     }
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });
@@ -226,7 +237,7 @@ const updateProduct = async function (req, res) {
     );
 
     if (!updateProductDetails) {
-      return res.status(404).send({ status: false, msg: "User not found" }); // status code
+      return res.status(404).send({ status: false, msg: "Product not found" }); // status code
     }
 
     return res.status(200).send({
