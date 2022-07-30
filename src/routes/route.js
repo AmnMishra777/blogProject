@@ -25,7 +25,7 @@ router.post(
 
 router.get(
   "/user/:userId/profile",
-  auth.Authentication,
+  // auth.Authentication,
   userController.getUser
 );
 

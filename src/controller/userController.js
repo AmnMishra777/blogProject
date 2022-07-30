@@ -5,6 +5,33 @@ const jwt = require("jsonwebtoken");
 const uploadFile = require("../middleware/aws");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
+const redis = require("redis")
+const { promisify } = require("util");
+
+//-----------------------------------------------------------------------------------//
+
+//Connect to redis
+const redisClient = redis.createClient(
+    13086,
+    "redis-13086.c212.ap-south-1-1.ec2.cloud.redislabs.com",
+    { no_ready_check: true }
+);
+redisClient.auth("yTp6IU0JMPd7gaFhO3ls2XjsEWF4hiRX", function (err) {
+    if (err) throw err;
+});
+
+redisClient.on("connect", async function () {
+    console.log("Connected to Redis..");
+});
+
+
+//1. connect to the server
+//2. use the commands :
+
+//Connection setup for redis
+
+const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
+const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 // validation for Profile image
 function isValidImage(value) {
@@ -38,9 +65,11 @@ const registerUser = async function (req, res) {
           "Please upload only image file with extension jpg, png, gif, jpeg",
       });
     }
+  
 
     let uploadedFileURL = await uploadFile.uploadFile(profileImage[0]);
     data.profileImage = uploadedFileURL;
+
 
     data.password = await bcrypt.hash(password, saltRounds);
 
@@ -94,7 +123,7 @@ const loginUser = async function (req, res) {
 
 // .................................. Get User .............................//
 const getUser = async function (req, res) {
-  try {
+  //try {
     //console.log(req.headers);
     let userId = req.params.userId;
     if (!ObjectId.isValid(userId)) {
@@ -103,23 +132,37 @@ const getUser = async function (req, res) {
         .send({ status: false, message: "UserId is not valid" });
     }
 
-    const user = await userModel.findById(userId);
-    if (!user) {
-      return res.status(400).send({ status: true, message: "User not found" });
+    let cachedUrlData = await GET_ASYNC(`${userId}`)
+    if (cachedUrlData) {
+      return res
+      .status(200)
+      .send({ status: true, message: "User profile details from cache", data: JSON.parse(cachedUrlData) });
+    }
+    else {
+        const findUserCode = await userModel.findById(userId)
+        if (findUserCode) {
+            await SET_ASYNC(`${userId}`,JSON.stringify(findUserCode))
+ return res.status(200).send({ status: true, message: "User profile details from DB", data: findUserCode })
+        } else {
+            return res.status(404).send({ status: false, message: "no data found" })
+        }
     }
 
-    // authorization
-    if (req.headers.userId !== user._id.toString())
-      return res
-        .status(403)
-        .send({ status: false, msg: "You are not authorized...." });
+    // const user = await userModel.findById(userId);
+    // if (!user) {
+    //   return res.status(400).send({ status: true, message: "User not found" }); 
+    // }
 
-    return res
-      .status(500)
-      .send({ status: true, message: "User profile details", data: user });
-  } catch (error) {
-    return res.status(500).send({ status: false, message: error.message });
-  }
+    // // authorization
+    // if (req.headers.userId !== user._id.toString())
+    //   return res
+    //     .status(403)
+    //     .send({ status: false, msg: "You are not authorized...." });
+
+   
+//   } catch (error) {
+//     return res.status(500).send({ status: false, message: error.message });
+//   }
 };
 
 // .................................. Update User .............................//
