@@ -3,7 +3,6 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const cartController = require("../controller/cartController");
 const productController = require("../controller/productController");
-const cartController = require("../controller/cartController");
 const validation = require("../validator/userValidation");
 const productValidation = require("../validator/productValidator");
 const auth = require("../middleware/auth");

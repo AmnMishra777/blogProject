@@ -18,7 +18,7 @@ const createCart = async function (req, res) {
     }
  
       const checkCart=await cartModel.findOne({_id:cartId,isDeleted:false})
-      console.log(checkCart)
+     // console.log(checkCart)
       if(!checkCart){
         return res.status(400).send({status:false,msg:"This cart is not availble in Database"})
       }
@@ -28,12 +28,14 @@ const createCart = async function (req, res) {
       _id: productId,
       isDeleted:false
     });
-  
-    totalPrice=checkCart.totalPrice+product.price
+    // let productCount = await cartModel.count(cartId.productId=productId )
+    // console.log(productCount)
+
+    totalPrice=checkCart.totalPrice
     totalItems=checkCart.totalItems+1
-    console.log(totalPrice)
-    console.log(totalItems)
-    let cartUpdate=await cartModel.findOneAndUpdate({cartId},{$push:{items:[{productId:productId,quantity:1}]},totalPrice:totalPrice,totalItems:totalItems},{new:true})
+   // console.log(totalPrice)
+    //console.log(totalItems)
+    let cartUpdate=await cartModel.findOneAndUpdate({cartId},{$push:{items:[{productId:productId,quantity:items.productId.length}]},totalPrice:totalPrice,totalItems:totalItems},{new:true})
     console.log(cartUpdate)
    
 
