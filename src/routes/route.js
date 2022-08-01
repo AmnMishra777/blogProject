@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controller/userController");
+const cartController = require("../controller/cartController");
 const productController = require("../controller/productController");
 const validation = require("../validator/userValidation");
 const productValidation = require("../validator/productValidator");
@@ -53,6 +54,11 @@ router.put(
 );
 
 router.delete("/products/:productId", productController.deleteProduct);
+
+router.post(
+  "/users/:userId/cart",
+  cartController.createCart
+);
 
 router.all("/**", function (req, res) {
   res.status(404).send({
