@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const cartController = require("../controller/cartController");
 const productController = require("../controller/productController");
+const cartController = require("../controller/cartController");
 const validation = require("../validator/userValidation");
 const productValidation = require("../validator/productValidator");
 const auth = require("../middleware/auth");
@@ -32,8 +33,8 @@ router.get(
 
 router.put(
   "/user/:userId/profile",
-  auth.Authentication,
-  validation.validationForUpdateUser,
+  // auth.Authentication,
+  // validation.validationForUpdateUser,
   userController.updateUser
 );
 
@@ -55,10 +56,7 @@ router.put(
 
 router.delete("/products/:productId", productController.deleteProduct);
 
-router.post(
-  "/users/:userId/cart",
-  cartController.createCart
-);
+router.post("/users/:userId/cart", cartController.createCart);
 
 router.all("/**", function (req, res) {
   res.status(404).send({
@@ -66,5 +64,6 @@ router.all("/**", function (req, res) {
     msg: "The api you request is not available",
   });
 });
+
 
 module.exports = router;

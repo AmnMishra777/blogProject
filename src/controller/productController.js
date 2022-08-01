@@ -31,7 +31,7 @@ const createProduct = async function (req, res) {
     const productCreation = await productModel.create(data);
     return res.status(201).send({
       status: true,
-      message: "User created successfully",
+      message: "Product created successfully",
       data: productCreation,
     });
   } catch (error) {
@@ -120,7 +120,7 @@ const getProductbyQueryParams = async function (req, res) {
         data: priceDetails,
       });
     }
-    
+
     if (priceLessThan != undefined) {
       if (!isValidBody(priceLessThan)) {
         return res
@@ -287,3 +287,4 @@ module.exports = {
   updateProduct,
   deleteProduct,
 };
+

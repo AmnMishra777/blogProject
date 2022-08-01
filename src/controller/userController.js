@@ -33,6 +33,7 @@ redisClient.on("connect", async function () {
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
+
 // validation for Profile image
 function isValidImage(value) {
   const regEx = /.+\.(?:(jpg|gif|png|jpeg|jfif))/; //It will handle all undefined, null, only numbersNaming, dot, space allowed in between
@@ -149,6 +150,7 @@ const getUser = async function (req, res) {
 const updateUser = async function (req, res) {
   try {
     let userId = req.params.userId;
+    let profileImage = req.body.files;
     let data = req.body;
     if (!ObjectId.isValid(userId)) {
       return res
@@ -172,7 +174,6 @@ const updateUser = async function (req, res) {
     }
 
     // ... validation for Profile Image ... //
-    let profileImage = req.files;
 
     if (profileImage && profileImage.length > 0) {
       if (profileImage.length > 1) {
@@ -246,7 +247,7 @@ const updateUser = async function (req, res) {
     return res.status(200).send({
       status: true,
       message: "User profile updated",
-      data: updateUserDetails,
+      data: updateUserDetails
     });
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
