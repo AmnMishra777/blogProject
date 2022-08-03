@@ -102,6 +102,7 @@ const loginUser = async function (req, res) {
   }
 };
 
+
 // .................................. Get User .............................//
 const getUser = async function (req, res) {
   //try {
