@@ -31,7 +31,7 @@ const createProduct = async function (req, res) {
     const productCreation = await productModel.create(data);
     return res.status(201).send({
       status: true,
-      message: "Product created successfully",
+      message: "Product Successfully created",
       data: productCreation,
     });
   } catch (error) {
@@ -138,7 +138,7 @@ const getProductbyQueryParams = async function (req, res) {
 
     return res
       .status(200)
-      .send({ status: true, message: "Product list", data: productDetails });
+      .send({ status: true, message: "Product List", data: productDetails });
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });
   }
@@ -166,7 +166,7 @@ const getProductbyParams = async function (req, res) {
 
     return res
       .status(200)
-      .send({ status: true, message: "Product list", data: findProducts });
+      .send({ status: true, message: "Product List", data: findProducts });
   } catch (error) {
     res.status(500).send({ status: false, message: error.message });
   }
@@ -184,7 +184,7 @@ const updateProduct = async function (req, res) {
     }
     const {
       title,
-      discription,
+      description,
       price,
       isFreeShipping,
       style,
@@ -204,7 +204,7 @@ const updateProduct = async function (req, res) {
       obj.title = title;
     }
 
-    if (discription) obj.discription = discription;
+    if (description) obj.description = description;
     if (price) obj.price = price;
     if (isFreeShipping) obj.isFreeShipping = isFreeShipping;
     if (style) obj.style = style;
