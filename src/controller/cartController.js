@@ -91,7 +91,8 @@ const createCart = async function (req, res) {
           .populate([{ path: "items.productId" }]);
         return res.status(201).send({
           status: true,
-          message: "User does not exist",
+          message: "cart updated",
+          data: updateQuantity,
         });
       }
 

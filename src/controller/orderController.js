@@ -28,13 +28,15 @@ const createOrder = async function (req, res) {
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-
     const obj = {
-      cart,
+      userId: cart.userId,
+      items: cart.items,
+      totalPrice: cart.totalPrice,
+      totalItems: cart.totalItems,
       totalQuantity: sumOfQuantity,
     };
-    console.log(obj);
-    console.log(obj.cart);
+    // console.log(obj);
+    // console.log(obj.cart);
 
 
     const order = await orderModel.create(obj)
