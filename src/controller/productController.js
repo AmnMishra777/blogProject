@@ -152,7 +152,7 @@ const getProductbyParams = async function (req, res) {
     if (!ObjectId.isValid(productId)) {
       return res
         .status(400)
-        .send({ status: false, message: "ProductId is in invalid format." });
+        .send({ status: false, message: "ProductId is not valid" });
     }
 
     //try to find book from that id
@@ -232,7 +232,7 @@ const updateProduct = async function (req, res) {
     }
 
     const updateProductDetails = await productModel.findOneAndUpdate(
-      { _id: productId },
+      { _id: productId, isDeleted: false },
       obj,
       { new: true }
     );
@@ -287,4 +287,3 @@ module.exports = {
   updateProduct,
   deleteProduct,
 };
-
