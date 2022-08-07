@@ -33,13 +33,13 @@ redisClient.on("connect", async function () {
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
-
 // validation for Profile image
 function isValidImage(value) {
   const regEx = /.+\.(?:(jpg|gif|png|jpeg|jfif))/; //It will handle all undefined, null, only numbersNaming, dot, space allowed in between
   const result = regEx.test(value);
   return result;
 }
+
 // .................................. Create User .............................//
 const registerUser = async function (req, res) {
   try {
@@ -102,7 +102,6 @@ const loginUser = async function (req, res) {
   }
 };
 
-
 // .................................. Get User .............................//
 const getUser = async function (req, res) {
   try {
@@ -116,7 +115,7 @@ const getUser = async function (req, res) {
 
     const user = await userModel.findById(userId);
     if (!user) {
-      return res.status(400).send({ status: true, message: "User not found" });
+      return res.status(404).send({ status: false, message: "User not found" });
     }
 
     // authorization
@@ -137,9 +136,9 @@ const getUser = async function (req, res) {
 const updateUser = async function (req, res) {
   try {
     let userId = req.params.userId;
-    let profileImage = req.body.files;
+    let profileImage = req.files;
     let data = req.body;
-    
+
     const { fname, lname, email, phone, address, password } = data;
     let obj = {};
 
@@ -223,13 +222,12 @@ const updateUser = async function (req, res) {
     );
 
     if (!updateUserDetails) {
-      return res.status(403).send({ status: false, msg: "User not found" });
+      return res.status(404).send({ status: false, msg: "User not found" });
     }
-
     return res.status(200).send({
       status: true,
       message: "User profile updated",
-      data: updateUserDetails
+      data: updateUserDetails,
     });
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
